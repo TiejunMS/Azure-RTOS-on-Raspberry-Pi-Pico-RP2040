@@ -5,7 +5,11 @@
 #include <stdio.h>
 #include "tx_api.h"
 #include "pico/stdlib.h"
+#if LIB_PICO_CYW43_ARCH == 1
+#include "pico/cyw43_arch.h"
+#else
 #include "hardware/gpio.h"
+#endif
 
 #define DEMO_STACK_SIZE         1024
 #define DEMO_BYTE_POOL_SIZE     9120
@@ -185,9 +189,14 @@ void    thread_0_entry(ULONG thread_input)
 UINT    status;
 
     // LED OFF
+#if LIB_PICO_CYW43_ARCH == 1
+    cyw43_arch_init();
+    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+#else
     gpio_init(PICO_DEFAULT_LED_PIN);
     gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
     gpio_put(PICO_DEFAULT_LED_PIN, 0);
+#endif
 
     /* This thread simply sits in while-forever-sleep loop.  */
     while(1)
@@ -197,9 +206,17 @@ UINT    status;
         thread_0_counter++;
 
         if (thread_0_counter % 2 == 0) {
+#if LIB_PICO_CYW43_ARCH == 1
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 1);
+#else
             gpio_put(PICO_DEFAULT_LED_PIN, 1);
+#endif
         } else {
+#if LIB_PICO_CYW43_ARCH == 1
+            cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, 0);
+#else
             gpio_put(PICO_DEFAULT_LED_PIN, 0);
+#endif
         }
 
         /* Print results.  */

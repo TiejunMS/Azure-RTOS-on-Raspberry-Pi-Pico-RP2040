@@ -19,4 +19,7 @@ set(THREADX_ARCH "cortex_m0")
 set(THREADX_TOOLCHAIN "gnu")
 add_subdirectory(threadx)
 
+if (PICO_CYW43_SUPPORTED) # set by PICO_BOARD=pico_w
+    target_link_libraries(${PROJECT_NAME} pico_cyw43_arch_none )
+endif()
 target_link_libraries(${PROJECT_NAME} pico_stdlib cmsis_core azrtos::threadx)

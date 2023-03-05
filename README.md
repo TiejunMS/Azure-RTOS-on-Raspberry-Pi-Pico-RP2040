@@ -38,6 +38,7 @@ This sample demonstrates [Azure RTOS threadx](https://azure.com/rtos) on Raspber
    # waiting for namke project generation
    nmake 
    ```
+   `Note: for target pico_w, replace cmake command above with: cmake .. -G "NMake Makefiles"  -DPICO_BOARD=pico_w`
 
 3. Hold the BOOTSEL button on Raspberry Pi Pico and connect micro-USB cable, you will see a new USB drive `PRI-PR2` is mounted.
 
