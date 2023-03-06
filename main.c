@@ -12,7 +12,6 @@ extern void demo_threadx(void);
 int main() {
 
     stdio_init_all();
-    printf("ThreadX Demo\n");
 
     demo_threadx();
 

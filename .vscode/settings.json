@@ -6,4 +6,7 @@
     "cmake.configureArgs": [
         "-DPICO_BOARD=pico_w"
     ],
+    "files.associations": {
+        "*.h": "c"
+    },
 }
