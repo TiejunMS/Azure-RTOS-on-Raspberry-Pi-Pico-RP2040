@@ -19,15 +19,16 @@ This sample demonstrates [Azure RTOS threadx](https://azure.com/rtos) on Raspber
 
 3. Follow chapter 8.2 of [Getting Started with Raspberry Pi Pico](https://datasheets.raspberrypi.org/pico/getting-started-with-pico.pdf) to setup the build environment on Windows 10.
 
-## Build and run the sample
-
+## Build
+### Windows
+1. Install pico-sdk.
 1. Clone this repository (and threadx as a submodule) alongside the pico-sdk (>= 1.2.0) directory. (This project is an external project depends on pico-sdk)
    
    ```
    git clone --recurse-submodules https://github.com/xiongyu0523/Azure-RTOS-on-Raspberry-Pi-Pico-RP2040
    ```
 
-2. Open a **Developer command prompt** for VS2019 and go to the cloned project to build
+1. Open a **Developer command prompt** for VS2019 and go to the cloned project to build
    
    ```
    cd Azure-RTOS-on-Azure-Sphere-Mediatek-MT3620
@@ -40,9 +41,21 @@ This sample demonstrates [Azure RTOS threadx](https://azure.com/rtos) on Raspber
    ```
    `Note: for target pico_w, replace cmake command above with: cmake .. -G "NMake Makefiles"  -DPICO_BOARD=pico_w`
 
-3. Hold the BOOTSEL button on Raspberry Pi Pico and connect micro-USB cable, you will see a new USB drive `PRI-PR2` is mounted.
+### Codespace
+1. Open the project in codespace.
+1. Open a terminal to build.
+   
+   ```
+   cmake -Bbuild -GNinja
+   cmake --build build
+   ```
+   `Note: for target pico_w, replace cmake generation command above with: cmake -Bbuild -GNinja -DPICO_BOARD=pico_w`
+1. Download `Azure-RTOS-on-Raspberry-Pi-Pico-RP2040.uf2` file in build folder.
+## Run
 
-4. Drag and drop the `Azure-RTOS-on-Raspberry-Pi-Pico-RP2040.uf2` file in build folder to the USB drive
+1. Hold the BOOTSEL button on Raspberry Pi Pico and connect micro-USB cable, you will see a new USB drive `PRI-PR2` is mounted.
+
+1. Drag and drop the `Azure-RTOS-on-Raspberry-Pi-Pico-RP2040.uf2` file in build folder to the USB drive
 
 ## Observe the output
 
