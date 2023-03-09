@@ -28,8 +28,6 @@ extern   "C" {
 
 #include "nx_api.h"
 
-#define SAMPLE_NETWORK_DRIVER nx_driver_pico_w
-
 /* Public API */
 void nx_driver_pico_w(NX_IP_DRIVER *driver_req_ptr);
 

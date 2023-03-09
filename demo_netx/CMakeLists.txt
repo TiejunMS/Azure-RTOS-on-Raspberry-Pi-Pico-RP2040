@@ -19,8 +19,20 @@ if (PICO_CYW43_SUPPORTED) # set by PICO_BOARD=pico_w
         set(WIFI_PASSWORD "${WIFI_PASSWORD}" CACHE INTERNAL "WiFi password for examples")
 
         set(NXD_ENABLE_FILE_SERVERS OFF CACHE INTERNAL "Includes a dependency on FileX to support 'server' protocol handlers")
+        set(NXD_ENABLE_AZURE_IOT ON CACHE INTERNAL "Enable Azure IoT")
         add_subdirectory(../lib/netxduo netxduo)
         add_subdirectory(nx_driver)
         add_subdirectory(demo_netx_ping)
+        add_subdirectory(demo_azure_iot)
+
+        target_compile_definitions(netxduo INTERFACE
+                                   -DNXD_MQTT_CLOUD_ENABLE
+                                   -DNX_SECURE_ENABLE
+                                   -DNX_ENABLE_IP_PACKET_FILTER
+                                   -DNX_ENABLE_EXTENDED_NOTIFY_SUPPORT
+                                   -DSAMPLE_NETWORK_DRIVER=nx_driver_pico_w
+                                   -DSAMPLE_DEVICE_MANUFACTURER=\"RaspberryPi\"
+                                   -DSAMPLE_DEVICE_MODEL=\"PicoW\"
+                                   )
     endif()
 endif()

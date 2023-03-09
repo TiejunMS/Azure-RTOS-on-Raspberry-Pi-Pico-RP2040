@@ -2,6 +2,17 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
+			"name": "Pico Debug: Remote",
+			"type": "cortex-debug",
+			"executable": "${command:cmake.launchTargetPath}",
+			"gdbPath": "gdb-multiarch",
+			"request": "launch",
+			"servertype": "external",
+			"gdbTarget": "${input:device.host}",
+			"runToEntryPoint": "main",
+			"svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
+		},
+		{
 			"name": "Pico Debug",
 			"type": "cortex-debug",
 			"request": "launch",
@@ -12,7 +23,10 @@
 			"executable": "${command:cmake.launchTargetPath}",
 			"svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
 			"cwd": "${workspaceRoot}",
-			"openOCDLaunchCommands": ["transport select swd", "adapter speed 4000"],
+			"openOCDLaunchCommands": [
+				"transport select swd",
+				"adapter speed 4000"
+			],
 			// Work around for stopping at main on restart
 			"postRestartCommands": [
 				"break main",
@@ -23,25 +37,13 @@
 				"target/rp2040-core0.cfg"
 			]
 		},
-		
-        {
-            "name": "Pico Debug: Remote",
-            "type": "cortex-debug",
-			"executable": "${command:cmake.launchTargetPath}",
-			"gdbPath": "gdb-multiarch",
-            "request": "launch",
-            "servertype": "external",
-            "gdbTarget": "${input:device.host}",
-			"runToEntryPoint": "main",
-			"svdFile": "${env:PICO_SDK_PATH}/src/rp2040/hardware_regs/rp2040.svd",
-        },
 	],
-    "inputs": [
-        {
-            "id": "device.host",
-            "type": "promptString",
-            "default": "host.docker.internal:3333",
-            "description": "The local hostname with port for GDB to connect to"
-        }
-    ]
+	"inputs": [
+		{
+			"id": "device.host",
+			"type": "promptString",
+			"default": "host.docker.internal:3333",
+			"description": "The local hostname with port for GDB to connect to"
+		}
+	]
 }
