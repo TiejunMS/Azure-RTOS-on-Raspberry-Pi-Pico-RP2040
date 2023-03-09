@@ -55,11 +55,6 @@
 #define NX_DRIVER_THREAD_INTERVAL (NX_IP_PERIODIC_RATE / 10)
 #endif /* NX_DRIVER_THREAD_INTERVAL */
 
-/* Interval to blink the LED. The default value is once per 10 cyw43_arch_poll. Define 0 to disable blink. */
-#ifndef NX_DRIVER_BLINK_RATE
-#define NX_DRIVER_BLINK_RATE 10
-#endif /* NX_DRIVER_BLINK_RATE  */
-
 static UINT _nx_driver_pico_w_initialize(NX_IP_DRIVER *driver_req_ptr);
 static UINT _nx_driver_pico_w_enable(NX_IP_DRIVER *driver_req_ptr);
 static UINT _nx_driver_pico_w_disable(NX_IP_DRIVER *driver_req_ptr);
@@ -99,10 +94,6 @@ uint16_t pbuf_copy_partial(const struct pbuf *p, void *dataptr, uint16_t len, ui
 static VOID _nx_driver_pico_w_thread_entry(ULONG thread_input)
 {
   NX_IP *ip_ptr = nx_driver_information.nx_driver_information_ip_ptr;
-#if NX_DRIVER_BLINK_RATE > 0
-  UCHAR led_state = 0;
-  UINT blink_count = 0;
-#endif /* NX_DRIVER_BLINK_RATE  */
 
   NX_PARAMETER_NOT_USED(thread_input);
 
@@ -123,14 +114,6 @@ static VOID _nx_driver_pico_w_thread_entry(ULONG thread_input)
 
     /* Sleep some ticks to next loop.  */
     tx_thread_sleep(NX_DRIVER_THREAD_INTERVAL);
-
-#if NX_DRIVER_BLINK_RATE > 0
-    if (++blink_count < NX_DRIVER_BLINK_RATE)
-      continue;
-    led_state = 1 - led_state;
-    cyw43_arch_gpio_put(CYW43_WL_GPIO_LED_PIN, led_state);
-    blink_count = 0;
-#endif /* NX_DRIVER_BLINK_RATE  */
   }
 }
 
