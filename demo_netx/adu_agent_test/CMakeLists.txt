@@ -23,8 +23,9 @@ add_custom_command(OUTPUT ${DEMO_UPDATE_FILE} DEPENDS ${DEMO_UPDATE}
 add_custom_target(${DEMO_UPDATE}_bin.h_gen ALL DEPENDS ${DEMO_UPDATE_FILE})
 
 # build adu_agent_test
-add_executable(${PROJECT_NAME} ../../main.c adu_agent_test.c nx_azure_iot_adu_agent_driver_pico_w.c)
+add_executable(${PROJECT_NAME} ../../main.c adu_agent_test.c ../demo_azure_iot/nx_azure_iot_adu_agent_driver_pico_w.c)
 target_link_libraries(${PROJECT_NAME} nx_driver_pico_w)
 pico_add_extra_outputs(${PROJECT_NAME})
+target_include_directories(${PROJECT_NAME} PRIVATE ${PICO_FLASHLOADER_PATH})
 set_linker_script(${PROJECT_NAME} memmap_application.ld)
 combine_uf2(${PROJECT_NAME})

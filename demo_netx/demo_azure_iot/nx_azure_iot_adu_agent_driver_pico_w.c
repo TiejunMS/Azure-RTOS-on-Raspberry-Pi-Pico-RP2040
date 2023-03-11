@@ -59,6 +59,7 @@ void nx_azure_iot_adu_agent_driver_pico_w(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_
     UINT remaining_size;
     UCHAR *data_ptr;
     tFlashHeader *flash_header;
+    TX_INTERRUPT_SAVE_AREA
 
     /* Default to successful return.  */
     driver_req_ptr -> nx_azure_iot_adu_agent_driver_status = NX_AZURE_IOT_SUCCESS;
@@ -94,7 +95,9 @@ void nx_azure_iot_adu_agent_driver_pico_w(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_
                Round erase length up to next 4096 byte boundary. */
             erase_length = (driver_req_ptr -> nx_azure_iot_adu_agent_driver_firmware_size + 
                             sizeof(tFlashHeader) + 0xFFF) & 0xFFFFF000;
+            TX_DISABLE
             flash_range_erase(FLASH_IMAGE_OFFSET, erase_length);
+            TX_RESTORE
             flash_header = (tFlashHeader *)flash_header_buffer;
             flash_header -> magic1 = FLASH_MAGIC1;
             flash_header -> magic2 = FLASH_MAGIC2;
@@ -169,7 +172,9 @@ void nx_azure_iot_adu_agent_driver_pico_w(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_
                 else
                 {
                     memcpy(&flash_buffer[flash_offset], data_ptr, remaining_size);
+                    TX_DISABLE
                     flash_range_program(FLASH_IMAGE_OFFSET+ flash_total_size, flash_buffer, FLASH_BUFFER_SIZE);
+                    TX_RESTORE
                     flash_total_size += FLASH_BUFFER_SIZE;
                     flash_offset = 0;
                     data_ptr += remaining_size;
@@ -181,7 +186,9 @@ void nx_azure_iot_adu_agent_driver_pico_w(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_
             while (data_size >= FLASH_BUFFER_SIZE)
             {
                 memcpy(flash_buffer, data_ptr, FLASH_BUFFER_SIZE);
+                TX_DISABLE
                 flash_range_program(FLASH_IMAGE_OFFSET + flash_total_size, flash_buffer, FLASH_BUFFER_SIZE);
+                TX_RESTORE
                 flash_total_size += FLASH_BUFFER_SIZE;
                 data_ptr += FLASH_BUFFER_SIZE;
                 data_size -= FLASH_BUFFER_SIZE;
@@ -206,7 +213,9 @@ void nx_azure_iot_adu_agent_driver_pico_w(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_
             /* Flash remaining data. */
             if (flash_offset > 0)
             {
+                TX_DISABLE
                 flash_range_program(FLASH_IMAGE_OFFSET + flash_total_size, flash_buffer, flash_offset);
+                TX_RESTORE
             }
 
             /* Update crc and flash header. */

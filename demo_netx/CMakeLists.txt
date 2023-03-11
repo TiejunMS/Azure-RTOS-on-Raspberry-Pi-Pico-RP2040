@@ -32,8 +32,6 @@ if (PICO_CYW43_SUPPORTED) # set by PICO_BOARD=pico_w
                                    -DNX_ENABLE_IP_PACKET_FILTER
                                    -DNX_ENABLE_EXTENDED_NOTIFY_SUPPORT
                                    -DSAMPLE_NETWORK_DRIVER=nx_driver_pico_w
-                                   -DSAMPLE_DEVICE_MANUFACTURER=\"RaspberryPi\"
-                                   -DSAMPLE_DEVICE_MODEL=\"PicoW\"
                                    )
     endif()
 endif()

@@ -43,7 +43,7 @@ static UINT adu_agent_started = NX_FALSE;
 
 VOID sample_adu_start(NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr);
 
-extern void nx_azure_iot_adu_agent_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
+extern void nx_azure_iot_adu_agent_driver_pico_w(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 #if (NX_AZURE_IOT_ADU_AGENT_PROXY_UPDATE_COUNT >= 1)
 extern void nx_azure_iot_adu_agent_proxy_driver(NX_AZURE_IOT_ADU_AGENT_DRIVER *driver_req_ptr);
 #endif /* NX_AZURE_IOT_ADU_AGENT_PROXY_UPDATE_COUNT */
@@ -84,7 +84,7 @@ VOID sample_adu_start(NX_AZURE_IOT_HUB_CLIENT *hub_client_ptr)
                                          (const UCHAR *)SAMPLE_DEVICE_MODEL, sizeof(SAMPLE_DEVICE_MODEL) - 1,
                                          (const UCHAR *)SAMPLE_DEVICE_INSTALLED_CRITERIA, sizeof(SAMPLE_DEVICE_INSTALLED_CRITERIA) - 1,
                                          adu_agent_update_notify,
-                                         nx_azure_iot_adu_agent_driver))
+                                         nx_azure_iot_adu_agent_driver_pico_w))
         {
             printf("Failed on nx_azure_iot_adu_agent_start!\r\n");
             return;
